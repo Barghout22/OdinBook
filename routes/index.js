@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-require("./passport");
+require("../Middleware/passport");
 
 router.get("/", (req, res) => {
   if (req.user) {
