@@ -1,2 +1,32 @@
-<p>hello user</p>
-<a href="/logout">log out</a>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homepage</title>
+  </head>
+  <body>
+    <a href="/users/${currentUser.id}">my profile</a>
+    <a href="/logout">log out</a>
+    <h1>hello <%=currentUser.displayName.split(" ")[0]%></h1>
+    <form action="/posts" method="post">
+      <label for="post_body"> what's on your mind </label>
+      <textarea
+        name="post_body"
+        id="post_body"
+        cols="80"
+        rows="10"
+        required
+      ></textarea>
+      <input type="submit" />
+    </form>
+    <%for(let index in posts){%>
+    <h3>
+      <a href="{<%=posts[index].postingUser.url%>}"
+        ><%=posts[index].postingUser.name%></a
+      >
+    </h3>
+    <p><%=posts[index].postBody%></p>
+    <p><%=posts[index].timeStamp%></p>
+    <%}%>
+  </body>
+</html>

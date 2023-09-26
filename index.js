@@ -22,10 +22,17 @@ app.set("view engine", "ejs");
 app.use(
   cookieSession({ name: "facebook-auth-session", keys: ["key1", "key2"] })
 );
+app.use(express.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use("/", loggedIn);
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.use("/", indexRouter);
 
 app.listen(port, () => {

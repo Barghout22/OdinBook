@@ -1,15 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const post_controller = require("../controllers/postcontroller");
 require("../Middleware/passport");
 
-router.get("/", (req, res) => {
-  if (req.user) {
-    res.render("home");
-  } else {
-    res.redirect("/login");
-  }
-});
+router.get("/", post_controller.homepage_display);
+router.post("/posts", post_controller.post_creation);
+
 router.get("/login", (req, res) => {
   res.render("login");
 });
