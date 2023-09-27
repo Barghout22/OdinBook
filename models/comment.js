@@ -6,7 +6,7 @@ const CommentSchema = new Schema({
   CommentorId: { type: Schema.Types.ObjectId, ref: "User" },
   Comment_content: { type: String, required: true },
   Post_reference: { type: Schema.Types.ObjectId, ref: "Post" },
-
+  likes_count: [{ type: Schema.Types.ObjectId, ref: "User" }],
   Comment_Date: { type: Date, default: Date.now },
 });
 

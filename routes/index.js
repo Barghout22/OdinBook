@@ -2,10 +2,13 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const post_controller = require("../controllers/postcontroller");
+const profile_controller = require("../controllers/profilecontroller");
 require("../Middleware/passport");
 
 router.get("/", post_controller.homepage_display);
 router.post("/posts", post_controller.post_creation);
+router.get("/posts/:postId", post_controller.post_details);
+router.get("/users/:userId", profile_controller.profile_display);
 
 router.get("/login", (req, res) => {
   res.render("login");

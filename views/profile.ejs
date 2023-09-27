@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OdinBook</title>
+  </head>
+  <body>
+    <img src="<%=user.profile_picture%>" alt="" />
+    <h1><%=user.name%></h1>
+    <%if (own_profile===false){%> <%if (friend_status==="not friends"){%>
+    <button>add as friend</button>
+    <%}else if (friend_status==="sent request"){%>
+    <button>cancel request</button>
+    <%}else if (friend_status==="received request"){%>
+    <button>approve request</button>
+    <button>reject request</button>
+    <%}else{%><button>remove friend</button><%}%> <%}%>
+    <h2>about:<%=user.about%></h2>
+    <%if(own_profile){%><button>edit about</button><%}%> <%if(posts){%>
+    <%for(let index in posts){%>
+    <h3><%=posts[index].postingUser.name%></h3>
+    <p><%=posts[index].timeStamp%></p>
+    <p><%=posts[index].postBody%></p>
+    <button>like</button>
+    <button>comment</button>
+    <%}%> <%}%>
+  </body>
+</html>

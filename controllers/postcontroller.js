@@ -8,7 +8,7 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
     res.redirect("/login");
   } else {
     const user = await User.findOne({ accountId: req.user.id });
-    const allPosts = await Post.find({
+    let allPosts = await Post.find({
       postingUser: user,
     }).populate("postingUser");
     for (let friend of user.friends) {
@@ -17,7 +17,15 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
       );
       allPosts = [...allPosts, ...postsByFriend];
     }
-    res.render("home", { posts: allPosts });
+    // console.log(allPosts);
+    allPosts = allPosts.map((post) => {
+      let likeStatus = post.likes.includes(user) ? true : false;
+      post = { ...post.toObject(), likeStatus };
+      return post;
+    });
+
+
+    res.render("home", { currentUser: user, posts: allPosts });
   }
 });
 exports.post_creation = [
@@ -38,3 +46,5 @@ exports.post_creation = [
     res.redirect("/");
   }),
 ];
+
+exports.post_details = asyncHandler(async (req, res, next) => {});

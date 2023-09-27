@@ -5,9 +5,9 @@
     <title>Homepage</title>
   </head>
   <body>
-    <a href="/users/${currentUser.id}">my profile</a>
+    <a href="<%=currentUser.url%>">my profile</a>
     <a href="/logout">log out</a>
-    <h1>hello <%=currentUser.displayName.split(" ")[0]%></h1>
+    <h1>hello <%=currentUser.name.split(" ")[0]%></h1>
     <form action="/posts" method="post">
       <label for="post_body"> what's on your mind </label>
       <textarea
@@ -21,12 +21,16 @@
     </form>
     <%for(let index in posts){%>
     <h3>
-      <a href="{<%=posts[index].postingUser.url%>}"
+      <a href="<%=posts[index].postingUser.url%>"
         ><%=posts[index].postingUser.name%></a
       >
     </h3>
-    <p><%=posts[index].postBody%></p>
     <p><%=posts[index].timeStamp%></p>
+    <p><%=posts[index].postBody%></p>
+    <%if(posts[index].likes.length>0){%><%=posts[index].likes.length%>likes<%}%>
+
+    <button><%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%></button>
+    <a href="{<%=posts[index].url%>}"><button>comment</button></a>
     <%}%>
   </body>
 </html>
