@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
@@ -17,14 +18,18 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
       );
       allPosts = [...allPosts, ...postsByFriend];
     }
-    // console.log(allPosts);
     allPosts = allPosts.map((post) => {
-      let likeStatus = post.likes.includes(user) ? true : false;
-      post = { ...post.toObject(), likeStatus };
-      return post;
+      let likeStatus = post.likes.includes(user._id) ? true : false;
+      let comment = findComment(post);
+      if (comment) {
+        // console.log({ ...post.toObject(), likeStatus, comment });
+        return { ...post.toObject(), likeStatus, comment };
+      } else {
+        // console.log({ ...post.toObject(), likeStatus });
+        return { ...post.toObject(), likeStatus };
+      }
     });
-
-
+    // console.log(allPosts[0]);
     res.render("home", { currentUser: user, posts: allPosts });
   }
 });
@@ -36,7 +41,7 @@ exports.post_creation = [
   asyncHandler(async (req, res, next) => {
     const user = await User.findOne({ accountId: req.user.id });
     const errors = validationResult(req);
-    console.log(req.body);
+    // console.log(req.body);
     const newPost = new Post({
       postingUser: user,
       postBody: req.body.post_body,
@@ -47,4 +52,66 @@ exports.post_creation = [
   }),
 ];
 
-exports.post_details = asyncHandler(async (req, res, next) => {});
+exports.post_details = asyncHandler(async (req, res, next) => {
+  const post = await Post.findById(req.params.postId).populate("postingUser");
+  const comments = await Comment.find({ post_reference: post._id }).populate(
+    "commentorId"
+  );
+  const user = await User.findOne({ accountId: req.user.id });
+  const likeStatus = post.likes.includes(user._id) ? true : false;
+  res.render("post", { post: post, comments: comments, likeStatus });
+});
+exports.comment_addition = [
+  body("comment_body", "post body cannot be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({ accountId: req.user.id });
+    const post = await Post.findById(req.params.postId);
+    const errors = validationResult(req);
+    const comment = new Comment({
+      commentorId: user,
+      comment_content: req.body.comment_body,
+      post_reference: post,
+      comment_date: new Date(),
+    });
+    await comment.save();
+    const comments = await Comment.find({ post_reference: post._id }).populate(
+      "commentorId"
+    );
+    // console.log(comments);
+    const likeStatus = post.likes.includes(user._id) ? true : false;
+
+    res.render("post", { post: post, comments: comments, likeStatus });
+  }),
+];
+exports.toggle_likes = asyncHandler(async (req, res, next) => {
+  const post = await Post.findById(req.params.postId);
+  const user = await User.findOne({ accountId: req.user.id });
+  let likes = post.likes;
+  const index = likes.indexOf(user._id);
+  if (index > -1) {
+    likes.splice(index, 1);
+  } else {
+    likes.push(user);
+  }
+  const updatedPost = new Post({
+    postingUser: post.postingUser,
+    postBody: post.postBody,
+    timeStamp: post.timeStamp,
+    likes: likes,
+    _id: req.params.postId,
+  });
+  await Post.findByIdAndUpdate(req.params.postId, updatedPost, {});
+  res.redirect("back");
+});
+
+async function findComment(post) {
+  const comment = await Comment.findOne({ post_reference: post });
+  if (comment) {
+    return comment;
+  } else {
+    return false;
+  }
+}

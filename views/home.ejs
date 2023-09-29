@@ -17,11 +17,11 @@
         rows="10"
         required
       ></textarea>
-      <input type="submit" />
+      <button type="submit">add post</button>
     </form>
     <%for(let index in posts){%>
     <h3>
-      <a href="<%=posts[index].postingUser.url%>"
+      <a href="/users/<%=posts[index].postingUser._id.toString()%>"
         ><%=posts[index].postingUser.name%></a
       >
     </h3>
@@ -29,8 +29,12 @@
     <p><%=posts[index].postBody%></p>
     <%if(posts[index].likes.length>0){%><%=posts[index].likes.length%>likes<%}%>
 
-    <button><%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%></button>
-    <a href="{<%=posts[index].url%>}"><button>comment</button></a>
+    <a href="/posts/<%=posts[index]._id%>/likes"
+      ><button>
+        <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
+      </button></a
+    >
+    <a href="/posts/<%=posts[index]._id%>"><button>comment</button></a>
     <%}%>
   </body>
 </html>

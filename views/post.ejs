@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OdinBook</title>
+  </head>
+  <body>
+    <a href="/">back to homepage</a>
+    <h3><%=post.postingUser.name%></h3>
+    <p><%=post.timeStamp%></p>
+    <p><%=post.postBody%></p>
+
+    <a href="<%=post.url%>/likes"
+      ><button>
+        <%if(likeStatus){%>unlike post<%}else{%>like post<%}%>
+      </button></a
+    >
+    <form action="" method="post">
+      <textarea
+        name="comment_body"
+        id="comment_body"
+        cols="70"
+        rows="10"
+        placeholder="add a comment"
+        required
+      ></textarea>
+      <button type="submit">add comment</button>
+    </form>
+    <h2>comments</h2>
+    <%for(let index in comments){%>
+    <h3><%=comments[index].commentorId.name%></h3>
+    <p><%=comments[index].comment_date%></p>
+    <p><%=comments[index].comment_content%></p>
+    <form action="/comments/<%=comments[index]._id%>/likes" method="post">
+      <input type="hidden" name="_method" value="PUT" />
+      <button type="submit">
+        <%if(comments[index].likeStatus){%>unlike comment<%}else{%>like
+        comment<%}%>
+      </button>
+    </form>
+    <%}%>
+  </body>
+</html>

@@ -1,11 +1,11 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
 exports.profile_display = asyncHandler(async (req, res, next) => {
   const currentUser = await User.findOne({ accountId: req.user.id });
-  console.log(req.params);
   const requiredUser = await User.findById(req.params.userId);
   const own_profile =
     currentUser.accountId === requiredUser.accountId ? true : false;
@@ -13,9 +13,10 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
     let allPosts = await Post.find({
       postingUser: currentUser,
     }).populate("postingUser");
-    allPosts = allPosts.map((post) => {
+    allPosts = allPosts.map(async (post) => {
       let likeStatus = post.likes.includes(currentUser) ? true : false;
-      post = { ...post.toObject(), likeStatus };
+      const comment = await Comment.findOne({ Post_reference: post });
+      post = { ...post.toObject(), likeStatus, comment };
       return post;
     });
 

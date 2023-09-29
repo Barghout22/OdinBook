@@ -8,7 +8,9 @@ require("../Middleware/passport");
 router.get("/", post_controller.homepage_display);
 router.post("/posts", post_controller.post_creation);
 router.get("/posts/:postId", post_controller.post_details);
+router.post("/posts/:postId", post_controller.comment_addition);
 router.get("/users/:userId", profile_controller.profile_display);
+router.get("/posts/:postId/likes", post_controller.toggle_likes);
 
 router.get("/login", (req, res) => {
   res.render("login");

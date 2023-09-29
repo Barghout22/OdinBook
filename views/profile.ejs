@@ -21,8 +21,14 @@
     <h3><%=posts[index].postingUser.name%></h3>
     <p><%=posts[index].timeStamp%></p>
     <p><%=posts[index].postBody%></p>
-    <button>like</button>
-    <button>comment</button>
+        <form action="/posts/<%=posts[index]._id%>/likes" method="post">
+      <input type="hidden" name="_method" value="PUT" />
+      <input type="submit">
+        <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>>
+      </input>
+    </form>
+    <!-- <a href="/posts/<%=posts[index]._id%>/likes"><button><%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%></button></a> -->
+    <a href="/posts/<%=posts[index]._id%>"><button>comment</button></a>
     <%}%> <%}%>
   </body>
 </html>
