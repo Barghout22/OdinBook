@@ -25,10 +25,14 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
 
     res.render("profile", { user: currentUser, posts: allPosts, own_profile });
   } else {
-    const friend_status = currentUser.friendRequests.includes(requiredUser._id)
+    let index = currentUser.friendRequests.findIndex(
+      (acc) => acc.requestUser._id.toString() === requiredUser._id.toString()
+    );
+
+    const friend_status = currentUser.friends.includes(requiredUser._id)
       ? "friends"
-      : currentUser.friendRequests.includes(requiredUser._id)
-      ? currentUser.friendRequests.find(requiredUser._id).status
+      : index > -1
+      ? currentUser.friendRequests[index].status
       : "not friends";
 
     if (friend_status !== "friends") {
@@ -49,7 +53,7 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
       });
 
       res.render("profile", {
-        user: currentUser,
+        user: requiredUser,
         posts: allPosts,
         own_profile,
         friend_status,
@@ -88,7 +92,6 @@ exports.update_about_post = [
 exports.display_other_users = asyncHandler(async (req, res, next) => {
   const currentUser = await User.findOne({ accountId: req.user.id });
   let allUsers = await User.find();
-
   const findUser = (user) => user.accountId === currentUser.accountId;
   const index = allUsers.findIndex(findUser);
   allUsers.splice(index, 1);
@@ -234,4 +237,38 @@ exports.accept_friend_request = asyncHandler(async (req, res, next) => {
 exports.remvoe_friend = asyncHandler(async (req, res, next) => {
   const currentUser = await User.findOne({ accountId: req.user.id });
   const requiredUser = await User.findById(req.params.userId);
+  let currentUserFriendList = currentUser.friends;
+  let requiredUserFriendList = requiredUser.friends;
+
+  let indexInCurrentUser = currentUserFriendList.findIndex(
+    (User) => User._id.toString() === requiredUser._id.toString()
+  );
+  let indexInRequiredUser = requiredUserFriendList.findIndex(
+    (User) => User._id.toString() === currentUser._id.toString()
+  );
+  currentUserFriendList.splice(indexInCurrentUser, 1);
+  requiredUserFriendList.splice(indexInRequiredUser, 1);
+  const updatedCurrentUser = new User({
+    accountId: currentUser.accountId,
+    name: currentUser.name,
+    profile_picture: currentUser.profile_picture,
+    about: currentUser.about,
+    friends: currentUserFriendList,
+    friendRequests: currentUser.friendRequests,
+    _id: currentUser._id,
+  });
+  const updatedRequiredUser = new User({
+    accountId: requiredUser.accountId,
+    name: requiredUser.name,
+    profile_picture: requiredUser.profile_picture,
+    about: requiredUser.about,
+    friends: requiredUserFriendList,
+    friendRequests: requiredUser.friendRequests,
+    _id: requiredUser._id,
+  });
+  await Promise.all([
+    User.findByIdAndUpdate(currentUser._id, updatedCurrentUser, {}),
+    User.findByIdAndUpdate(requiredUser._id, updatedRequiredUser, {}),
+  ]);
+  res.redirect("back");
 });

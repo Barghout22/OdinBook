@@ -8,17 +8,25 @@
     <img src="<%=user.profile_picture%>" alt="" />
     <h1><%=user.name%></h1>
     <%if (own_profile===false){%> <%if (friend_status==="not friends"){%>
-    <button>add as friend</button>
+    <a href="<%=user.url%>/addfriend"><button>add as friend</button></a>
     <%}else if (friend_status==="sent request"){%>
     <p>friend request sent</p>
-    <button>cancel request</button>
+    <a href="<%=user.url%>/cancelrequest"
+      ><button>cancel request</button></a
+    >
     <%}else if (friend_status==="received request"){%>
     <p>friend request received</p>
-    <button>approve request</button>
-    <button>cancel request</button>
+    <a href="<%=user.url%>/acceptrequest"
+      ><button>approve request</button></a
+    >
+    <a href="<%=user.url%>/cancelrequest"
+      ><button>cancel request</button></a
+    >
     <%}else{%>
     <p>friends</p>
-    <button>remove friend</button><%}%> <%}%>
+    <a href="<%=user.url%>/removefriend"
+      ><button>remove friend</button></a
+    ><%}%> <%}%>
     <h2>about me</h2>
     <p><%=user.about%></p>
     <%if(own_profile){%><a href="<%=user.url%>/about"
