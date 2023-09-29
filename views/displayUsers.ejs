@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OdinBook</title>
+  </head>
+  <body>
+    <a href="/">go back to homepage</a>
+    <%if(users.length>0){%> <%for (i in users){%>
+    <img src="<%=users[i].profile_picture%>" alt="" />
+
+    <a href="/users/<%=users[i]._id%>">
+      <p><%=users[i].name%></p>
+    </a>
+    <p><%=users[i].friend_status%></p>
+    <%if(users[i].friend_status==="not friends"){%>
+    <a href="/users/<%=users[i]._id%>/addfriend"><button>add friend</button></a>
+    <%}else if (users[i].friend_status==="sent request"){%>
+    <a href="/users/<%=users[i]._id%>/cancelrequest"
+      ><button>cancel request</button></a
+    >
+    <%}else{%>
+    <a href="/users/<%=users[i]._id%>/acceptrequest"
+      ><button>accept request</button></a
+    >
+    <a href="/users/<%=users[i]._id%>/cancelrequest"
+      ><button>cancel request</button></a
+    >
+    <%}%><%}%><%}else{%>
+    <p>no new friends to display</p>
+    <%}%>
+  </body>
+</html>

@@ -10,11 +10,15 @@
     <%if (own_profile===false){%> <%if (friend_status==="not friends"){%>
     <button>add as friend</button>
     <%}else if (friend_status==="sent request"){%>
+    <p>friend request sent</p>
     <button>cancel request</button>
     <%}else if (friend_status==="received request"){%>
+    <p>friend request received</p>
     <button>approve request</button>
-    <button>reject request</button>
-    <%}else{%><button>remove friend</button><%}%> <%}%>
+    <button>cancel request</button>
+    <%}else{%>
+    <p>friends</p>
+    <button>remove friend</button><%}%> <%}%>
     <h2>about me</h2>
     <p><%=user.about%></p>
     <%if(own_profile){%><a href="<%=user.url%>/about"

@@ -20,6 +20,7 @@ passport.use(
       profileFields: ["id", "displayName", "photos"],
     },
     async function (accessToken, refreshToken, profile, done) {
+      console.log(profile.id);
       const user = await User.findOne({ acountId: profile.id });
       if (!user) {
         const user = new User({
