@@ -6,12 +6,14 @@
   </head>
   <body>
     <a href="/">back to homepage</a>
+    <img src="<%=post.postingUser.profile_picture%>" alt="" />
     <h3><%=post.postingUser.name%></h3>
     <p><%=post.postBody%></p>
     <%if(post.timeStamp){%>
     <p><%=post.timeStamp.toLocaleString()%></p>
+    <%}%> <%if(post.likes.length>0){%>
+    <p><%=post.likes.length%> likes</p>
     <%}%>
-
     <a href="<%=post.url%>/likes"
       ><button>
         <%if(likeStatus){%>unlike post<%}else{%>like post<%}%>
@@ -30,16 +32,20 @@
     </form>
     <h2>comments</h2>
     <%if(comments.length>0){%> <%for(let index in comments){%>
+    <img src="<%=comments[index].commentorId.profile_picture%>" alt="" />
     <h3><%=comments[index].commentorId.name%></h3>
     <p><%=comments[index].comment_date.toLocaleString()%></p>
     <p><%=comments[index].comment_content%></p>
-    <form action="/comments/<%=comments[index]._id%>/likes" method="post">
-      <input type="hidden" name="_method" value="PUT" />
-      <button type="submit">
-        <%if(comments[index].likeStatus){%>unlike comment<%}else{%>like
+    <%if(comments[index].likes_count.length>0){%>
+    <p><%=comments[index].likes_count.length%> likes</p>
+    <%}%>
+    <a href="/comments/<%=comments[index]._id%>/likes">
+      <button>
+        <%if(comments[index].commentLikeStatus){%>unlike comment<%}else{%>like
         comment<%}%>
-      </button>
-    </form>
+      </button></a
+    >
+
     <%}%> <%}else{%>
     <p>there are no comments yet</p>
     <%}%>

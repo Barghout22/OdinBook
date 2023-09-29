@@ -15,20 +15,31 @@
     <button>approve request</button>
     <button>reject request</button>
     <%}else{%><button>remove friend</button><%}%> <%}%>
-    <h2>about:<%=user.about%></h2>
-    <%if(own_profile){%><button>edit about</button><%}%> <%if(posts){%>
-    <%for(let index in posts){%>
+    <h2>about me</h2>
+    <p><%=user.about%></p>
+    <%if(own_profile){%><a href="<%=user.url%>/about"
+      ><button>edit about</button></a
+    ><%}%> <%if(posts){%> <%for(let index in posts){%>
     <h3><%=posts[index].postingUser.name%></h3>
-    <p><%=posts[index].timeStamp%></p>
     <p><%=posts[index].postBody%></p>
-        <form action="/posts/<%=posts[index]._id%>/likes" method="post">
-      <input type="hidden" name="_method" value="PUT" />
-      <input type="submit">
-        <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>>
-      </input>
-    </form>
-    <!-- <a href="/posts/<%=posts[index]._id%>/likes"><button><%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%></button></a> -->
-    <a href="/posts/<%=posts[index]._id%>"><button>comment</button></a>
-    <%}%> <%}%>
+    <%if(posts[index].timeStamp){%>
+    <p><%=posts[index].timeStamp.toLocaleString()%></p>
+    <%}%>
+    <%if(posts[index].likes.length>0){%><%=posts[index].likes.length%>likes<%}%>
+
+    <a href="/posts/<%=posts[index]._id%>/likes"
+      ><button>
+        <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
+      </button></a
+    >
+    <a href="/posts/<%=posts[index]._id%>"
+      ><button>view all comments</button></a
+    >
+    <%if(posts[index].comment){%>
+    <h3>comments</h3>
+    <h4><%=posts[index].comment.commentorId.name%></h4>
+    <h5><%=posts[index].comment.comment_content %></h5>
+    <h5><%=posts[index].comment.comment_date.toLocaleString() %></h5>
+    <%}%> <%}%> <%}%>
   </body>
 </html>

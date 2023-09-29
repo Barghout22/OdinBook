@@ -9,8 +9,11 @@ router.get("/", post_controller.homepage_display);
 router.post("/posts", post_controller.post_creation);
 router.get("/posts/:postId", post_controller.post_details);
 router.post("/posts/:postId", post_controller.comment_addition);
+router.get("/posts/:postId/likes", post_controller.toggle_post_likes);
+router.get("/comments/:commentId/likes", post_controller.toggle_comment_likes);
 router.get("/users/:userId", profile_controller.profile_display);
-router.get("/posts/:postId/likes", post_controller.toggle_likes);
+router.get("/users/:userId/about", profile_controller.get_about_form);
+router.post("/users/:userId/about", profile_controller.update_about_post);
 
 router.get("/login", (req, res) => {
   res.render("login");

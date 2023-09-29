@@ -24,18 +24,9 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
         let comment = await Comment.findOne({ post_reference: post }).populate(
           "commentorId"
         );
-
-        // console.log(comment);
-        if (comment) {
-          // console.log({ ...post.toObject(), likeStatus, comment });
-          return { ...post.toObject(), likeStatus, comment };
-        } else {
-          // console.log({ ...post.toObject(), likeStatus });
-          return { ...post.toObject(), likeStatus };
-        }
+        return { ...post.toObject(), likeStatus, comment };
       })
     );
-    // console.log(allPosts[0]);
     res.render("home", { currentUser: user, posts: allPosts });
   }
 });
@@ -59,14 +50,24 @@ exports.post_creation = [
 ];
 
 exports.post_details = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ accountId: req.user.id });
   const post = await Post.findById(req.params.postId).populate("postingUser");
-  const comments = await Comment.find({ post_reference: post._id }).populate(
+  let comments = await Comment.find({ post_reference: post._id }).populate(
     "commentorId"
   );
-  const user = await User.findOne({ accountId: req.user.id });
+  if (comments) {
+    comments = comments.map((comment) => {
+      let commentLikeStatus = comment.likes_count.includes(user._id)
+        ? true
+        : false;
+      return { ...comment.toObject(), commentLikeStatus };
+    });
+  }
+
   const likeStatus = post.likes.includes(user._id) ? true : false;
   res.render("post", { post: post, comments: comments, likeStatus });
 });
+
 exports.comment_addition = [
   body("comment_body", "post body cannot be empty")
     .trim()
@@ -92,7 +93,7 @@ exports.comment_addition = [
     res.render("post", { post: post, comments: comments, likeStatus });
   }),
 ];
-exports.toggle_likes = asyncHandler(async (req, res, next) => {
+exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.postId);
   const user = await User.findOne({ accountId: req.user.id });
   let likes = post.likes;
@@ -110,5 +111,29 @@ exports.toggle_likes = asyncHandler(async (req, res, next) => {
     _id: req.params.postId,
   });
   await Post.findByIdAndUpdate(req.params.postId, updatedPost, {});
+  res.redirect("back");
+});
+
+exports.toggle_comment_likes = asyncHandler(async (req, res, next) => {
+  console.log(req.params.commentId);
+  const comment = await Comment.findById(req.params.commentId);
+  console.log(comment);
+  const user = await User.findOne({ accountId: req.user.id });
+  let likes = comment.likes_count;
+  const index = likes.indexOf(user._id);
+  if (index > -1) {
+    likes.splice(index, 1);
+  } else {
+    likes.push(user);
+  }
+  const updatedComment = new Comment({
+    commentorId: user,
+    comment_content: comment.comment_content,
+    post_reference: comment.post_reference,
+    likes_count: likes,
+    comment_date: comment.comment_date,
+    _id: req.params.commentId,
+  });
+  await Comment.findByIdAndUpdate(req.params.commentId, updatedComment, {});
   res.redirect("back");
 });

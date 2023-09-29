@@ -13,12 +13,15 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
     let allPosts = await Post.find({
       postingUser: currentUser,
     }).populate("postingUser");
-    allPosts = allPosts.map(async (post) => {
-      let likeStatus = post.likes.includes(currentUser) ? true : false;
-      const comment = await Comment.findOne({ Post_reference: post });
-      post = { ...post.toObject(), likeStatus, comment };
-      return post;
-    });
+    allPosts = await Promise.all(
+      allPosts.map(async (post) => {
+        let likeStatus = post.likes.includes(currentUser._id) ? true : false;
+        let comment = await Comment.findOne({ post_reference: post }).populate(
+          "commentorId"
+        );
+        return { ...post.toObject(), likeStatus, comment };
+      })
+    );
 
     res.render("profile", { user: currentUser, posts: allPosts, own_profile });
   } else {
@@ -53,3 +56,30 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
     }
   }
 });
+
+exports.get_about_form = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.userId);
+  res.render("editAbout", { user: user });
+});
+
+exports.update_about_post = [
+  body("user_about", "post body cannot be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.params.userId);
+    const errors = validationResult(req);
+    const updatedUser = new User({
+      accountId: user.accountId,
+      name: user.name,
+      profile_picture: user.profile_picture,
+      about: req.body.user_about,
+      friends: user.friends,
+      friendRequests: user.friendRequests,
+      _id: req.params.userId,
+    });
+    await User.findByIdAndUpdate(req.params.userId, updatedUser, {});
+    res.redirect(user.url);
+  }),
+];

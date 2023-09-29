@@ -5,6 +5,7 @@
     <title>Homepage</title>
   </head>
   <body>
+    <img src="<%=currentUser.profile_picture%>" alt="" />
     <a href="<%=currentUser.url%>">my profile</a>
     <a href="/logout">log out</a>
     <h1>hello <%=currentUser.name.split(" ")[0]%></h1>
@@ -20,6 +21,7 @@
       <button type="submit">add post</button>
     </form>
     <%for(let index in posts){%>
+      <img src="<%=posts[index].postingUser.profile_picture%>" alt="">
     <h3>
       <a href="/users/<%=posts[index].postingUser._id.toString()%>"
         ><%=posts[index].postingUser.name%></a
