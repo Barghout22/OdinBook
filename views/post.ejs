@@ -7,8 +7,10 @@
   <body>
     <a href="/">back to homepage</a>
     <h3><%=post.postingUser.name%></h3>
-    <p><%=post.timeStamp%></p>
     <p><%=post.postBody%></p>
+    <%if(post.timeStamp){%>
+    <p><%=post.timeStamp.toLocaleString()%></p>
+    <%}%>
 
     <a href="<%=post.url%>/likes"
       ><button>
@@ -27,9 +29,9 @@
       <button type="submit">add comment</button>
     </form>
     <h2>comments</h2>
-    <%for(let index in comments){%>
+    <%if(comments.length>0){%> <%for(let index in comments){%>
     <h3><%=comments[index].commentorId.name%></h3>
-    <p><%=comments[index].comment_date%></p>
+    <p><%=comments[index].comment_date.toLocaleString()%></p>
     <p><%=comments[index].comment_content%></p>
     <form action="/comments/<%=comments[index]._id%>/likes" method="post">
       <input type="hidden" name="_method" value="PUT" />
@@ -38,6 +40,8 @@
         comment<%}%>
       </button>
     </form>
+    <%}%> <%}else{%>
+    <p>there are no comments yet</p>
     <%}%>
   </body>
 </html>

@@ -25,8 +25,11 @@
         ><%=posts[index].postingUser.name%></a
       >
     </h3>
-    <p><%=posts[index].timeStamp%></p>
+
     <p><%=posts[index].postBody%></p>
+    <%if(posts[index].timeStamp){%>
+    <p><%=posts[index].timeStamp.toLocaleString()%></p>
+    <%}%>
     <%if(posts[index].likes.length>0){%><%=posts[index].likes.length%>likes<%}%>
 
     <a href="/posts/<%=posts[index]._id%>/likes"
@@ -34,7 +37,14 @@
         <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
       </button></a
     >
-    <a href="/posts/<%=posts[index]._id%>"><button>comment</button></a>
-    <%}%>
+    <a href="/posts/<%=posts[index]._id%>"
+      ><button>view all comments</button></a
+    >
+    <%if(posts[index].comment){%>
+    <h3>comments</h3>
+    <h4><%=posts[index].comment.commentorId.name%></h4>
+    <h5><%=posts[index].comment.comment_content %></h5>
+    <h5><%=posts[index].comment.comment_date.toLocaleString() %></h5>
+    <%}%> <%}%>
   </body>
 </html>

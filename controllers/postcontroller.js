@@ -21,7 +21,9 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
     allPosts = await Promise.all(
       allPosts.map(async (post) => {
         let likeStatus = post.likes.includes(user._id) ? true : false;
-        let comment = await Comment.findOne({ post_reference: post });
+        let comment = await Comment.findOne({ post_reference: post }).populate(
+          "commentorId"
+        );
 
         // console.log(comment);
         if (comment) {
@@ -33,7 +35,7 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
         }
       })
     );
-    console.log(allPosts[0]);
+    // console.log(allPosts[0]);
     res.render("home", { currentUser: user, posts: allPosts });
   }
 });
