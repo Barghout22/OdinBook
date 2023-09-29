@@ -5,28 +5,22 @@
     <title>OdinBook</title>
   </head>
   <body>
+    <a href="/">go back to homepage</a>
     <img src="<%=user.profile_picture%>" alt="" />
     <h1><%=user.name%></h1>
     <%if (own_profile===false){%> <%if (friend_status==="not friends"){%>
     <a href="<%=user.url%>/addfriend"><button>add as friend</button></a>
     <%}else if (friend_status==="sent request"){%>
     <p>friend request sent</p>
-    <a href="<%=user.url%>/cancelrequest"
-      ><button>cancel request</button></a
-    >
+    <a href="<%=user.url%>/cancelrequest"><button>cancel request</button></a>
     <%}else if (friend_status==="received request"){%>
     <p>friend request received</p>
-    <a href="<%=user.url%>/acceptrequest"
-      ><button>approve request</button></a
-    >
-    <a href="<%=user.url%>/cancelrequest"
-      ><button>cancel request</button></a
-    >
+    <a href="<%=user.url%>/acceptrequest"><button>approve request</button></a>
+    <a href="<%=user.url%>/cancelrequest"><button>cancel request</button></a>
     <%}else{%>
     <p>friends</p>
-    <a href="<%=user.url%>/removefriend"
-      ><button>remove friend</button></a
-    ><%}%> <%}%>
+    <a href="<%=user.url%>/removefriend"><button>remove friend</button></a><%}%>
+    <%}%>
     <h2>about me</h2>
     <p><%=user.about%></p>
     <%if(own_profile){%><a href="<%=user.url%>/about"
