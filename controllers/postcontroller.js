@@ -83,7 +83,7 @@ exports.comment_addition = [
     .escape(),
   asyncHandler(async (req, res, next) => {
     const user = await User.findOne({ accountId: req.user.id });
-    const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId).populate("postingUser");
     const errors = validationResult(req);
     const comment = new Comment({
       commentorId: user,
@@ -98,7 +98,12 @@ exports.comment_addition = [
     // console.log(comments);
     const likeStatus = post.likes.includes(user._id) ? true : false;
 
-    res.render("post", { post: post, comments: comments, likeStatus });
+    res.render("post", {
+      currentUser: user,
+      post: post,
+      comments: comments,
+      likeStatus,
+    });
   }),
 ];
 exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
