@@ -82,3 +82,37 @@ p.noSuggestions {
   font-weight: bold;
   margin-left: 20px;
 }
+
+/* rules for the about page */
+
+div.mainContainer {
+  width: 95vw;
+  height: 80vh;
+  border-radius: 10px;
+  margin-left: 3vw;
+  background-color: white;
+}
+h1.aboutSection {
+  margin: 30px;
+}
+form.aboutSection {
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+form.aboutSection > textarea {
+  font-size: 25px;
+}
+form.aboutSection > button {
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 20px;
+  background-color: #1877f2;
+  color: white;
+}
+form.aboutSection > button:hover {
+  cursor: pointer;
+  background-color: #0c5ac0;
+}
