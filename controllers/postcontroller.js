@@ -58,7 +58,6 @@ exports.post_details = asyncHandler(async (req, res, next) => {
   let comments = await Comment.find({
     post_reference: req.params.postId,
   }).populate("commentorId");
-  console.log(comments[0].commentorId.url);
   if (comments) {
     comments = comments.map((comment) => {
       let commentLikeStatus = comment.likes_count.includes(user._id)
