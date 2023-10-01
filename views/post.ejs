@@ -2,49 +2,75 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>OdinBook</title>
+    <title>post details</title>
+    <link rel="stylesheet" href="/css/post.css" />
   </head>
   <body>
-    <a href="/">back to homepage</a>
-    <img src="<%=post.postingUser.profile_picture%>" alt="" />
-    <h3><%=post.postingUser.name%></h3>
-    <p><%=post.postBody%></p>
-    <%if(post.timeStamp){%>
-    <p><%=post.timeStamp.toLocaleString()%></p>
-    <%}%> <%if(post.likes.length>0){%>
-    <p><%=post.likes.length%> likes</p>
-    <%}%>
-    <a href="<%=post.url%>/likes"
-      ><button>
-        <%if(likeStatus){%>unlike post<%}else{%>like post<%}%>
-      </button></a
-    >
-    <form action="" method="post">
-      <textarea
-        name="comment_body"
-        id="comment_body"
-        cols="70"
-        rows="10"
-        placeholder="add a comment"
-        required
-      ></textarea>
-      <button type="submit">add comment</button>
-    </form>
-    <h2>comments</h2>
-    <%if(comments.length>0){%> <%for(let index in comments){%>
-    <img src="<%=comments[index].commentorId.profile_picture%>" alt="" />
-    <h3><%=comments[index].commentorId.name%></h3>
-    <p><%=comments[index].comment_date.toLocaleString()%></p>
-    <p><%=comments[index].comment_content%></p>
-    <%if(comments[index].likes_count.length>0){%>
-    <p><%=comments[index].likes_count.length%> likes</p>
-    <%}%>
-    <a href="/comments/<%=comments[index]._id%>/likes">
-      <button>
-        <%if(comments[index].commentLikeStatus){%>unlike comment<%}else{%>like
-        comment<%}%>
-      </button></a
-    >
+    <ul>
+      <a href="/"><li>homepage</li></a>
+      <a href="<%=currentUser.url%>"> <li>my profile</li></a>
+      <a href="/users"> <li>find friends</li></a>
+      <a href="/logout"> <li>log out</li></a>
+    </ul>
+    <div class="postContainer">
+      <div class="userData">
+        <img src="<%=post.postingUser.profile_picture%>" alt="" />
+        <h3>
+          <a href="/users/<%=post.postingUser._id.toString()%>"
+            ><%=post.postingUser.name%></a
+          >
+        </h3>
+        <%if(post.timeStamp){%>
+        <p><%=post.timeStamp.toLocaleString()%></p>
+        <%}%>
+      </div>
+      <div class="postBdy">
+        <p><%=post.postBody%></p>
+        <%if(post.likes.length>0){%>
+        <p>
+          <%=post.likes.length%><%if(post.likes.length>1){%> likes<%}else{%>
+          like<%}%>
+        </p>
+        <%}%>
+      </div>
+
+      <div class="btnContainer">
+        <a href="/posts/<%=post._id%>/likes"
+          ><button class="postBtn" <%if(likeStatus){%>
+            style="color:#1877f2;"<%}%>>
+            <%if(likeStatus){%>unlike<%}else{%>like<%}%>
+          </button></a
+        >
+      </div>
+
+      <form action="" method="post">
+        <textarea
+          name="comment_body"
+          id="comment_body"
+          cols="70"
+          rows="10"
+          placeholder="add a comment"
+          required
+        ></textarea>
+        <button type="submit">add comment</button>
+      </form>
+      <h2 class="cmntSection">all comments</h2>
+      <%if(comments.length>0){%> <%for(let index in comments){%>
+      <div class="commentContainer">
+      <div class="commentHeader">
+        <img src="<%=comments[index].commentorId.profile_picture%>" alt="" />
+        <h3><a href="/users/<%=comments[index].commentorId._id%>"><%=comments[index].commentorId.name%></a></h3>
+        <p><%=comments[index].comment_date.toLocaleString()%></p>
+        </div>
+      <p><%=comments[index].comment_content%></p>
+
+      <a href="/comments/<%=comments[index]._id%>/likes" <%if(comments[index].commentLikeStatus){%> style="color:#1877f2;"<%}%>>
+       
+          <%if(comments[index].commentLikeStatus){%>unlike <%}else{%>like
+          <%}%>
+       </a
+      >
+    </div>
 
     <%}%> <%}else{%>
     <p>there are no comments yet</p>

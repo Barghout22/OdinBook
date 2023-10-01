@@ -27,6 +27,9 @@ exports.homepage_display = asyncHandler(async (req, res, next) => {
         return { ...post.toObject(), likeStatus, comment };
       })
     );
+    allPosts = allPosts.sort(function (a, b) {
+      return new Date(b.timeStamp) - new Date(a.timeStamp);
+    });
     res.render("home", { currentUser: user, posts: allPosts });
   }
 });
@@ -52,9 +55,10 @@ exports.post_creation = [
 exports.post_details = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ accountId: req.user.id });
   const post = await Post.findById(req.params.postId).populate("postingUser");
-  let comments = await Comment.find({ post_reference: post._id }).populate(
-    "commentorId"
-  );
+  let comments = await Comment.find({
+    post_reference: req.params.postId,
+  }).populate("commentorId");
+  console.log(comments[0].commentorId.url);
   if (comments) {
     comments = comments.map((comment) => {
       let commentLikeStatus = comment.likes_count.includes(user._id)
@@ -65,7 +69,12 @@ exports.post_details = asyncHandler(async (req, res, next) => {
   }
 
   const likeStatus = post.likes.includes(user._id) ? true : false;
-  res.render("post", { post: post, comments: comments, likeStatus });
+  res.render("post", {
+    currentUser: user,
+    post: post,
+    comments: comments,
+    likeStatus,
+  });
 });
 
 exports.comment_addition = [

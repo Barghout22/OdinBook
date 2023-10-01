@@ -3,51 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <title>Homepage</title>
+    <link rel="stylesheet" href="/css/home.css" />
   </head>
   <body>
-    <img src="<%=currentUser.profile_picture%>" alt="" />
-    <a href="<%=currentUser.url%>">my profile</a>
-    <a href="/logout">log out</a>
-    <a href="/users">find friends</a>
-    <h1>hello <%=currentUser.name.split(" ")[0]%></h1>
+    <ul>
+      <a href="<%=currentUser.url%>"> <li>my profile</li></a>
+      <a href="/users"> <li>find friends</li></a>
+      <a href="/logout"> <li>log out</li></a>
+    </ul>
+    <h1>Welcome to OdinBooc, <%=currentUser.name.split(" ")[0]%></h1>
     <form action="/posts" method="post">
-      <label for="post_body"> what's on your mind </label>
       <textarea
         name="post_body"
         id="post_body"
         cols="80"
         rows="10"
         required
+        placeholder=" what's on your mind?"
       ></textarea>
-      <button type="submit">add post</button>
+      <button type="submit">create post</button>
     </form>
     <%for(let index in posts){%>
-    <img src="<%=posts[index].postingUser.profile_picture%>" alt="" />
-    <h3>
-      <a href="/users/<%=posts[index].postingUser._id.toString()%>"
-        ><%=posts[index].postingUser.name%></a
-      >
-    </h3>
+    <div class="postContainer">
+      <div class="userData">
+        <img src="<%=posts[index].postingUser.profile_picture%>" alt="" />
+        <h3>
+          <a href="/users/<%=posts[index].postingUser._id.toString()%>"
+            ><%=posts[index].postingUser.name%></a
+          >
+        </h3>
+        <%if(posts[index].timeStamp){%>
+        <p><%=posts[index].timeStamp.toLocaleString()%></p>
+        <%}%>
+      </div>
+      <div class="postBdy">
+        <p><%=posts[index].postBody%></p>
+        <%if(posts[index].likes.length>0){%>
+        <p>
+          <%=posts[index].likes.length%><%if(posts[index].likes.length>1){%> likes<%}else{%>
+          like<%}%>
+        </p>
+        <%}%>
+      </div>
 
-    <p><%=posts[index].postBody%></p>
-    <%if(posts[index].timeStamp){%>
-    <p><%=posts[index].timeStamp.toLocaleString()%></p>
+      <div class="btnContainer">
+        <a href="/posts/<%=posts[index]._id%>/likes"
+          ><button class="postBtn" <%if(posts[index].likeStatus){%> style="color:#1877f2;"<%}%>>
+            <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
+          </button></a
+        >
+        <a href="/posts/<%=posts[index]._id%>"
+          ><button class="postBtn">comment</button></a
+        >
+      </div>
+
+      <%if(posts[index].comment){%>
+
+      <div class="commentContainer">
+        <h3><a href="/users/<%=posts[index].comment.commentorId._id%>"><%=posts[index].comment.commentorId.name%></a></h4>
+                   <p><%=posts[index].comment.comment_content %></p>
+
+        <p><%=posts[index].comment.comment_date.toLocaleString() %></p>
+      </div>
+      <a href="/posts/<%=posts[index]._id%>" class="viewCmnts">view all comments</a>
+      <%}else{%>
+      <p class="noCmmnts">there are no comments on this post yet</p>
+      <%}%>
+    </div>
     <%}%>
-    <%if(posts[index].likes.length>0){%><%=posts[index].likes.length%>likes<%}%>
-
-    <a href="/posts/<%=posts[index]._id%>/likes"
-      ><button>
-        <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
-      </button></a
-    >
-    <a href="/posts/<%=posts[index]._id%>"
-      ><button>view all comments</button></a
-    >
-    <%if(posts[index].comment){%>
-    <h3>comments</h3>
-    <h4><%=posts[index].comment.commentorId.name%></h4>
-    <h5><%=posts[index].comment.comment_content %></h5>
-    <h5><%=posts[index].comment.comment_date.toLocaleString() %></h5>
-    <%}%> <%}%>
   </body>
 </html>

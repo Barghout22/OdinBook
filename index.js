@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
+app.use(express.static(__dirname + "/public"));
 
 app.listen(port, () => {
   console.log("server is up and running on port", port);

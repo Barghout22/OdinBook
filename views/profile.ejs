@@ -3,49 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <title>OdinBook</title>
+    <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
-    <a href="/">go back to homepage</a>
-    <img src="<%=user.profile_picture%>" alt="" />
-    <h1><%=user.name%></h1>
-    <%if (own_profile===false){%> <%if (friend_status==="not friends"){%>
-    <a href="<%=user.url%>/addfriend"><button>add as friend</button></a>
-    <%}else if (friend_status==="sent request"){%>
-    <p>friend request sent</p>
-    <a href="<%=user.url%>/cancelrequest"><button>cancel request</button></a>
-    <%}else if (friend_status==="received request"){%>
-    <p>friend request received</p>
-    <a href="<%=user.url%>/acceptrequest"><button>approve request</button></a>
-    <a href="<%=user.url%>/cancelrequest"><button>cancel request</button></a>
+    <%if(!own_profile){%>
+    <ul>
+      <a href="/" class="differentProf"><li>homepage</li></a>
+      <a href="<%=currentUser.url%>" class="differentProf">
+        <li>my profile</li></a
+      >
+      <a href="/users" class="differentProf"> <li>find friends</li></a>
+      <a href="/logout" class="differentProf"> <li>log out</li></a>
+    </ul>
     <%}else{%>
-    <p>friends</p>
-    <a href="<%=user.url%>/removefriend"><button>remove friend</button></a><%}%>
+    <ul>
+      <a href="/"><li>homepage</li></a>
+      <a href="/users"> <li>find friends</li></a>
+      <a href="/logout"> <li>log out</li></a>
+    </ul>
     <%}%>
-    <h2>about me</h2>
-    <p><%=user.about%></p>
-    <%if(own_profile){%><a href="<%=user.url%>/about"
-      ><button>edit about</button></a
-    ><%}%> <%if(posts){%> <%for(let index in posts){%>
-    <h3><%=posts[index].postingUser.name%></h3>
-    <p><%=posts[index].postBody%></p>
-    <%if(posts[index].timeStamp){%>
-    <p><%=posts[index].timeStamp.toLocaleString()%></p>
-    <%}%>
-    <%if(posts[index].likes.length>0){%><%=posts[index].likes.length%>likes<%}%>
 
-    <a href="/posts/<%=posts[index]._id%>/likes"
-      ><button>
-        <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
-      </button></a
-    >
-    <a href="/posts/<%=posts[index]._id%>"
-      ><button>view all comments</button></a
-    >
-    <%if(posts[index].comment){%>
-    <h3>comments</h3>
-    <h4><%=posts[index].comment.commentorId.name%></h4>
-    <h5><%=posts[index].comment.comment_content %></h5>
-    <h5><%=posts[index].comment.comment_date.toLocaleString() %></h5>
-    <%}%> <%}%> <%}%>
+    <div class="userInfoSection">
+      <img src="<%=user.profile_picture%>" alt="" />
+      <h1><%=user.name%></h1>
+      <h2>About</h2>
+      <p><%=user.about%></p>
+      <%if(own_profile){%><a href="<%=user.url%>/about"
+        ><button>edit about</button></a
+      ><%}%> <%if (own_profile===false){%> <%if
+      (friend_status==="not friends"){%>
+      <p>you are not friends</p>
+      <a href="<%=user.url%>/addfriend"><button>add as friend</button></a>
+      <%}else if (friend_status==="sent request"){%>
+      <p>friend request sent</p>
+      <a href="<%=user.url%>/cancelrequest"><button>cancel request</button></a>
+      <%}else if (friend_status==="received request"){%>
+      <p>friend request received</p>
+      <div class="doublbtnCntainer">
+        <a href="<%=user.url%>/acceptrequest"
+          ><button>approve request</button></a
+        >
+        <a href="<%=user.url%>/cancelrequest"
+          ><button>cancel request</button></a
+        >
+      </div>
+      <%}else{%>
+      <p>you are friends</p>
+      <a href="<%=user.url%>/removefriend"><button>remove friend</button></a
+      ><%}%> <%}%>
+    </div>
+    <%if(posts){%> <%for(let index in posts){%>
+<div class="postContainer">
+      <div class="userData">
+        <img src="<%=posts[index].postingUser.profile_picture%>" alt="" />
+        <h3>
+          <a href="/users/<%=posts[index].postingUser._id.toString()%>"
+            ><%=posts[index].postingUser.name%></a
+          >
+        </h3>
+        <%if(posts[index].timeStamp){%>
+        <p><%=posts[index].timeStamp.toLocaleString()%></p>
+        <%}%>
+      </div>
+      <div class="postBdy">
+        <p><%=posts[index].postBody%></p>
+        <%if(posts[index].likes.length>0){%>
+        <p>
+          <%=posts[index].likes.length%><%if(posts[index].likes.length>1){%> likes<%}else{%> like<%}%>
+        </p>
+        <%}%>
+      </div>
+
+      <div class="btnContainer">
+        <a href="/posts/<%=posts[index]._id%>/likes"
+          ><button class="postBtn" <%if(posts[index].likeStatus){%> style="color:#1877f2;"<%}%>>
+            <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
+          </button></a
+        >
+        <a href="/posts/<%=posts[index]._id%>"
+          ><button class="postBtn">comment</button></a
+        >
+      </div>
+
+      <%if(posts[index].comment){%>
+
+      <div class="commentContainer">
+        <h3><a href="<%=posts[index].comment.commentorId._id%>"><%=posts[index].comment.commentorId.name%></a></h4>
+                   <p><%=posts[index].comment.comment_content %></p>
+
+        <p><%=posts[index].comment.comment_date.toLocaleString() %></p>
+      </div>
+      <a href="/posts/<%=posts[index]._id%>" class="viewCmnts">view all comments</a>
+      <%}else{%>
+      <p class="noCmmnts">there are no comments on this post yet</p>
+      <%}%>
+    </div>
+ <%}%> <%}%>
   </body>
 </html>

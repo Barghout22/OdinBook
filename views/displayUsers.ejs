@@ -3,31 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <title>OdinBook</title>
+    <link rel="stylesheet" href="/css/displayUsers.css" />
   </head>
   <body>
-    <a href="/">go back to homepage</a>
+    <ul>
+      <a href="/"><li>homepage</li></a>
+      <a href="<%=currentUser.url%>"> <li>my profile</li></a>
+      <a href="/logout"> <li>log out</li></a>
+    </ul>
     <%if(users.length>0){%> <%for (i in users){%>
-    <img src="<%=users[i].profile_picture%>" alt="" />
-
-    <a href="/users/<%=users[i]._id%>">
-      <p><%=users[i].name%></p>
-    </a>
-    <p><%=users[i].friend_status%></p>
-    <%if(users[i].friend_status==="not friends"){%>
-    <a href="/users/<%=users[i]._id%>/addfriend"><button>add friend</button></a>
-    <%}else if (users[i].friend_status==="sent request"){%>
-    <a href="/users/<%=users[i]._id%>/cancelrequest"
-      ><button>cancel request</button></a
-    >
-    <%}else{%>
-    <a href="/users/<%=users[i]._id%>/acceptrequest"
-      ><button>accept request</button></a
-    >
-    <a href="/users/<%=users[i]._id%>/cancelrequest"
-      ><button>cancel request</button></a
-    >
+    <div class="suggestionDispCard">
+      <div class="suggestionHeader">
+        <img src="<%=users[i].profile_picture%>" alt="" />
+        <a href="/users/<%=users[i]._id%>">
+          <p><%=users[i].name%></p>
+        </a>
+      </div>
+      <p><%=users[i].friend_status%></p>
+      <%if(users[i].friend_status==="not friends"){%>
+      <a href="/users/<%=users[i]._id%>/addfriend"><button>add friend</button></a>
+      <%}else if (users[i].friend_status==="sent request"){%>
+      <a href="/users/<%=users[i]._id%>/cancelrequest"
+        ><button>cancel request</button></a
+      >
+      <%}else{%>
+      <a href="/users/<%=users[i]._id%>/acceptrequest"
+        ><button>accept request</button></a
+      >
+      <a href="/users/<%=users[i]._id%>/cancelrequest"
+        ><button>cancel request</button></a
+      >
+    </div>
     <%}%><%}%><%}else{%>
-    <p>no new friends to display</p>
+    <p class="noSuggestions">no new friends to display</p>
     <%}%>
   </body>
 </html>

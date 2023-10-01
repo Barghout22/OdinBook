@@ -22,7 +22,9 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
         return { ...post.toObject(), likeStatus, comment };
       })
     );
-
+    allPosts = allPosts.sort(function (a, b) {
+      return new Date(b.timeStamp) - new Date(a.timeStamp);
+    });
     res.render("profile", { user: currentUser, posts: allPosts, own_profile });
   } else {
     let index = currentUser.friendRequests.findIndex(
@@ -34,9 +36,9 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
       : index > -1
       ? currentUser.friendRequests[index].status
       : "not friends";
-
     if (friend_status !== "friends") {
       res.render("profile", {
+        currentUser: currentUser,
         user: requiredUser,
         own_profile,
         friend_status,
@@ -47,12 +49,15 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
         postingUser: requiredUser,
       }).populate("postingUser");
       allPosts = allPosts.map((post) => {
-        let likeStatus = post.likes.includes(currentUser) ? true : false;
+        let likeStatus = post.likes.includes(currentUser._id) ? true : false;
         post = { ...post.toObject(), likeStatus };
         return post;
       });
-
+      allPosts = allPosts.sort(function (a, b) {
+        return new Date(b.timeStamp) - new Date(a.timeStamp);
+      });
       res.render("profile", {
+        currentUser: currentUser,
         user: requiredUser,
         posts: allPosts,
         own_profile,
@@ -114,7 +119,7 @@ exports.display_other_users = asyncHandler(async (req, res, next) => {
     return { ...user.toObject(), friend_status };
   });
   allUsers = allUsers.filter((element) => element.friend_status !== "friends");
-  res.render("displayUsers", { users: allUsers });
+  res.render("displayUsers", { users: allUsers, currentUser: currentUser });
 });
 exports.add_friend = asyncHandler(async (req, res, next) => {
   const currentUser = await User.findOne({ accountId: req.user.id });

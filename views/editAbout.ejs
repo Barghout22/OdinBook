@@ -3,14 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <title>OdinBook</title>
+    <link rel="stylesheet" href="/css/displayUsers.css" />
   </head>
   <body>
-    <h1>update your about section</h1>
-    <form action="" method="post">
-      <textarea name="user_about" id="user_about" cols="80" rows="10" required>
-<%=user.about%></textarea
-      >
-      <button type="submit">update about</button>
-    </form>
+    <ul>
+      <a href="/" class="aboutSection"><li>homepage</li></a>
+      <a href="<%=user.url%>" class="aboutSection"> <li>my profile</li></a>
+      <a href="/users" class="aboutSection"> <li>find friends</li></a>
+      <a href="/logout" class="aboutSection"> <li>log out</li></a>
+    </ul>
+    <div class="mainContainer">
+      <h1 class="aboutSection">update your "about" section</h1>
+      <form action="" method="post" class="aboutSection">
+        <textarea
+          name="user_about"
+          id="user_about"
+          cols="80"
+          rows="10"
+          required
+        >
+      <%=user.about%></textarea
+        >
+        <button type="submit">update about</button>
+      </form>
+    </div>
   </body>
 </html>
