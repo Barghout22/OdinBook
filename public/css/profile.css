@@ -22,11 +22,14 @@ li:hover {
   background-color: #0c5ac0;
 }
 ul > a {
-  width: 23%;
+  width: 32%;
   height: 100%;
   color: white;
   font-size: 30px;
   font-weight: bold;
+}
+ul > a.differentProf {
+  width: 23%;
 }
 
 a {
@@ -39,48 +42,103 @@ ul > a:hover {
   text-decoration: none;
 }
 
-div.postContainer,
-form {
+div.userInfoSection {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  text-align: center;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+}
+div.userInfoSection > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+div.userInfoSection > h1 {
+  font-size: 60px;
+}
+div.userInfoSection > h2 {
+  margin-bottom: 0;
+  font-size: 50px;
+}
+div.userInfoSection :nth-child(4) {
+  margin-top: 10px;
+  font-size: 40px;
+}
+div.userInfoSection :nth-child(5) {
+  margin-top: 30px;
+  font-size: 30px;
+}
+div.userInfoSection > a {
+  width: 48%;
+}
+div.doublbtnCntainer {
+  width: 96%;
+  display: flex;
+}
+div.doublbtnCntainer > a {
+  width: 48%;
+  margin: 20px;
+}
+div.userInfoSection > a > button,
+div.doublbtnCntainer > a > button {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: 15px;
+  background-color: #1877f2;
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+}
+div.userInfoSection > a > button:hover,
+div.doublbtnCntainer > a > button:hover {
+  cursor: pointer;
+  background-color: #0c5ac0;
+}
+div.postContainer {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-  padding: 5%;
   background-color: white;
   border-radius: 20px;
   margin-right: 5vw;
   margin-left: 5vw;
   margin-top: 2vh;
   margin-bottom: 2vh;
-}
-div.postContainer {
   flex-basis: 1;
   padding: 0;
 }
 
 div.userData {
-  width: 30%;
+  width: 80%;
   margin-left: 15px;
   display: flex;
   justify-content: stretch;
   flex-wrap: wrap;
   padding: 10px;
 }
-@media (max-width: 1780px) {
-  div.userData {
-    width: 40%;
-  }
-}
-@media (max-width: 1190px) {
-  div.userData {
-    width: 60%;
-  }
-}
-@media (max-width: 700px) {
+@media (max-width: 550px) {
   div.userData {
     width: 100%;
   }
 }
-
+@media (min-width: 885px) {
+  div.userData {
+    width: 40%;
+  }
+}
+@media (min-width: 1800px) {
+  div.userData {
+    width: 30%;
+  }
+}
 div.userData > img {
   width: 80px;
   height: 80px;
@@ -116,12 +174,12 @@ div.btnContainer {
   border-bottom: black 2px dotted;
 }
 div.btnContainer > a {
-  width: 100%;
+  width: 50%;
 }
 div.btnContainer > a > button {
   width: 100%;
-  font-size: 40px;
-  padding: 20px;
+  font-size: 30px;
+  padding: 10px;
   background-color: white;
   color: black;
   border: none;
@@ -130,88 +188,35 @@ div.btnContainer > a > button:hover {
   background-color: aliceblue;
   cursor: pointer;
 }
-form {
-  padding: 1%;
-}
 
-textarea {
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 25px;
-  height: 100px;
-  transition: height 0.5s;
-}
-textarea:focus {
-  height: 200px;
-}
-
-form > button {
-  background-color: white;
-  font-size: 30px;
-  padding: 20px;
-  padding-left: 40px;
-  padding-right: 40px;
-  border-radius: 5px;
-}
-form > button:hover {
-  cursor: pointer;
-  background-color: rgb(191, 187, 187);
-}
-h2.cmntSection {
-  padding-left: 30px;
-  font-size: 40px;
+div.btnContainer > :nth-child(2) {
+  border-left: black 2px dotted;
 }
 div.commentContainer {
-  background-color: #f2f3f5;
-  width: 90%;
-  border-radius: 10px;
+  background-color: #e4e6eb;
+  width: 50%;
   margin: 20px;
+  border-radius: 7px;
   padding: 10px;
 }
 
-div.commentHeader {
-  width: 35%;
-  display: flex;
-  flex-wrap: wrap;
+div.commentContainer > h3 {
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 1600px) {
-  div.commentHeader {
-    width: 50%;
-  }
+div.commentContainer > :nth-child(2) {
+  font-size: 30px;
+  margin: 5px;
 }
-@media (max-width: 1000px) {
-  div.commentHeader {
-    width: 65%;
-  }
+div.commentContainer > :nth-child(3) {
+  font-size: 20px;
 }
-@media (max-width: 770px) {
-  div.commentHeader {
-    width: 100%;
-  }
-}
-
-div.commentHeader > img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-div.commentHeader > h3 {
-  font-size: 35px;
-  margin-top: 30px;
-  margin-bottom: 0;
-}
-div.commentHeader > p {
-  padding-left: 80px;
-  margin-top: 0;
-}
-
-div.commentContainer > a {
+a.viewCmnts {
   font-size: 25px;
-  color: black;
-  margin-left: 10px;
+  padding: 10px;
 }
-div.commentContainer > p {
-  margin: 10px;
-  font-size: 40px;
+p.noCmmnts {
+  margin-left: 10px;
+  font-size: 25px;
 }

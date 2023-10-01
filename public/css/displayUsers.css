@@ -22,7 +22,7 @@ li:hover {
   background-color: #0c5ac0;
 }
 ul > a {
-  width: 33%;
+  width: 32%;
   height: 100%;
   color: white;
   font-size: 30px;
@@ -70,6 +70,7 @@ div.suggestionDispCard > a > button:hover {
 div.suggestionHeader > img {
   width: 90px;
   height: 90px;
+  border-radius: 50%;
 }
 div.suggestionHeader > a > p {
   margin-left: 20px;
@@ -91,6 +92,9 @@ div.mainContainer {
   border-radius: 10px;
   margin-left: 3vw;
   background-color: white;
+}
+ul > a.aboutSection {
+  width: 23%;
 }
 h1.aboutSection {
   margin: 30px;
