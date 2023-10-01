@@ -62,6 +62,7 @@ form {
 textarea {
   background-color: #e4e6eb;
   border-radius: 10px;
+  margin-bottom: 10px;
   font-size: 25px;
   height: 100px;
   transition: height 0.5s;
@@ -135,6 +136,9 @@ div.postBdy > p:nth-child(1) {
   margin-top: 5px;
   font-size: 40px;
 }
+div.postBdy > p:nth-child(2) {
+  font-size: 20px;
+}
 div.btnContainer {
   display: flex;
   justify-content: stretch;
@@ -170,10 +174,12 @@ div.commentContainer {
 
 div.commentContainer > h3 {
   font-size: 30px;
+  margin-bottom: 20px;
 }
 
 div.commentContainer > :nth-child(2) {
   font-size: 30px;
+  margin: 5px;
 }
 div.commentContainer > :nth-child(3) {
   font-size: 20px;
