@@ -97,13 +97,7 @@ exports.comment_addition = [
     );
     // console.log(comments);
     const likeStatus = post.likes.includes(user._id) ? true : false;
-
-    res.render("post", {
-      currentUser: user,
-      post: post,
-      comments: comments,
-      likeStatus,
-    });
+    res.redirect(post.url);
   }),
 ];
 exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
