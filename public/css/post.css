@@ -115,10 +115,8 @@ div.btnContainer {
   border-top: black 2px dotted;
   border-bottom: black 2px dotted;
 }
-div.btnContainer > a {
-  width: 100%;
-}
-div.btnContainer > a > button {
+
+div.btnContainer > button {
   width: 100%;
   font-size: 40px;
   padding: 20px;
@@ -126,7 +124,7 @@ div.btnContainer > a > button {
   color: black;
   border: none;
 }
-div.btnContainer > a > button:hover {
+div.btnContainer > button:hover {
   background-color: aliceblue;
   cursor: pointer;
 }

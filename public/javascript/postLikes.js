@@ -18,6 +18,15 @@ $(document).ready(function () {
           $(this).css("color", "black");
           $(this).text("like");
         }
+        const likesCount = data.likesCount;
+        const likesCountElement = $(`#likes-count-${postId}`);
+        if (likesCount > 1) {
+          likesCountElement.text(likesCount + " likes").show();
+        } else if (likesCount === 1) {
+          likesCountElement.text(likesCount + " like").show();
+        } else {
+          likesCountElement.hide();
+        }
       },
       error: function (err) {
         console.error("Error:", err);

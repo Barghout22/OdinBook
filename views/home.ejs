@@ -38,16 +38,16 @@
       </div>
       <div class="postBdy">
         <p><%=posts[index].postBody%></p>
-        <%if(posts[index].likes.length>0){%>
-        <p>
+        
+        <p id="likes-count-<%=posts[index]._id%>" <%if(posts[index].likes.length===0){%>style="display:none;"<%}%>>
           <%=posts[index].likes.length%><%if(posts[index].likes.length>1){%> likes<%}else{%>
           like<%}%>
         </p>
-        <%}%>
+        
       </div>
 
       <div class="btnContainer">
-        <button class="postBtn like-button" data-post-id="<%=posts[index]._id%>" <%if(posts[index].likeStatus){%> style="color:#1877f2;"<%}%>>
+        <button  data-post-id="<%=posts[index]._id%>" <%if(posts[index].likeStatus){%> style="color:#1877f2;" class="postBtn like-button liked"<%}else{%>class="postBtn like-button"<%}%>>
             <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
           </button>
         <a href="/posts/<%=posts[index]._id%>"

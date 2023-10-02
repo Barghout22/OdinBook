@@ -108,12 +108,10 @@ exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
 
   const isLikedState = req.body.isLiked === "false" ? false : true;
   if (isLikedState) {
-    
     if (index > -1) {
       likes.splice(index, 1);
     }
   } else {
-   
     if (index === -1) {
       likes.push(user);
     }
@@ -126,8 +124,8 @@ exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
     _id: req.params.postId,
   });
   await Post.findByIdAndUpdate(req.params.postId, updatedPost, {});
-
-  res.json({ isLiked: !isLikedState });
+  const likesCount = updatedPost.likes.length;
+  res.json({ isLiked: !isLikedState, likesCount: likesCount });
   // res.redirect("back");
 });
 

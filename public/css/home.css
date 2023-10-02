@@ -147,7 +147,7 @@ div.btnContainer {
   border-bottom: black 2px dotted;
 }
 div.btnContainer > a,
-button {
+div.btnContainer > button {
   width: 50%;
 }
 div.btnContainer > button {
