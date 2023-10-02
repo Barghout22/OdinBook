@@ -26,17 +26,16 @@
       </div>
       <div class="postBdy">
         <p><%=post.postBody%></p>
-        <%if(post.likes.length>0){%>
-        <p>
+        <p id="likes-count-<%=post._id%>" <%if(post.likes.length===0){%>style="display:none;"<%}%>>
           <%=post.likes.length%><%if(post.likes.length>1){%> likes<%}else{%>
           like<%}%>
         </p>
-        <%}%>
+        
       </div>
 
       <div class="btnContainer">
-<button class="postBtn like-button" data-post-id="<%=post._id%>"  <%if(likeStatus){%>
-            style="color:#1877f2;"<%}%>>
+<button  data-post-id="<%=post._id%>"  <%if(likeStatus){%>
+            style="color:#1877f2;" class="postBtn like-button liked"<%}else{%> class="postBtn like-button"<%}%>>
             <%if(likeStatus){%>unlike<%}else{%>like<%}%>
           </button>
       </div>
