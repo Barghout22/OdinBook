@@ -134,10 +134,15 @@ exports.toggle_comment_likes = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ accountId: req.user.id });
   let likes = comment.likes_count;
   const index = likes.indexOf(user._id);
-  if (index > -1) {
-    likes.splice(index, 1);
+  const isLikedState = req.body.isLiked === "false" ? false : true;
+  if (isLikedState) {
+    if (index > -1) {
+      likes.splice(index, 1);
+    }
   } else {
-    likes.push(user);
+    if (index === -1) {
+      likes.push(user);
+    }
   }
   const updatedComment = new Comment({
     commentorId: user,
@@ -148,5 +153,5 @@ exports.toggle_comment_likes = asyncHandler(async (req, res, next) => {
     _id: req.params.commentId,
   });
   await Comment.findByIdAndUpdate(req.params.commentId, updatedComment, {});
-  res.redirect("back");
+  res.json({ isLiked: !isLikedState });
 });

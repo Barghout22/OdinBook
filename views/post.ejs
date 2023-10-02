@@ -61,7 +61,7 @@
         </div>
       <p><%=comments[index].comment_content%></p>
 
-      <a href="/comments/<%=comments[index]._id%>/likes" <%if(comments[index].commentLikeStatus){%> style="color:#1877f2;"<%}%>>
+      <a href="" data-comment-id="<%=comments[index]._id%>" <%if(comments[index].commentLikeStatus){%> style="color:#1877f2;" class="like-comment-button liked"<%}else{%>class="like-comment-button"<%}%>>
        
           <%if(comments[index].commentLikeStatus){%>unlike <%}else{%>like
           <%}%>
@@ -74,5 +74,7 @@
     <%}%>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script  src="/javascript/postLikes.js"></script>
+      <script  src="/javascript/commentLikes.js"></script>
+
   </body>
 </html>
