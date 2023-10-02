@@ -47,11 +47,9 @@
       </div>
 
       <div class="btnContainer">
-        <a href="/posts/<%=posts[index]._id%>/likes"
-          ><button class="postBtn" <%if(posts[index].likeStatus){%> style="color:#1877f2;"<%}%>>
+        <button class="postBtn like-button" data-post-id="<%=posts[index]._id%>" <%if(posts[index].likeStatus){%> style="color:#1877f2;"<%}%>>
             <%if(posts[index].likeStatus){%>unlike<%}else{%>like<%}%>
-          </button></a
-        >
+          </button>
         <a href="/posts/<%=posts[index]._id%>"
           ><button class="postBtn">comment</button></a
         >
@@ -71,5 +69,7 @@
       <%}%>
     </div>
     <%}%>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script  src="/javascript/postLikes.js"></script>
   </body>
 </html>

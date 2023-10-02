@@ -105,10 +105,18 @@ exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ accountId: req.user.id });
   let likes = post.likes;
   const index = likes.indexOf(user._id);
-  if (index > -1) {
-    likes.splice(index, 1);
+
+  const isLikedState = req.body.isLiked === "false" ? false : true;
+  if (isLikedState) {
+    
+    if (index > -1) {
+      likes.splice(index, 1);
+    }
   } else {
-    likes.push(user);
+   
+    if (index === -1) {
+      likes.push(user);
+    }
   }
   const updatedPost = new Post({
     postingUser: post.postingUser,
@@ -118,13 +126,13 @@ exports.toggle_post_likes = asyncHandler(async (req, res, next) => {
     _id: req.params.postId,
   });
   await Post.findByIdAndUpdate(req.params.postId, updatedPost, {});
-  res.redirect("back");
+
+  res.json({ isLiked: !isLikedState });
+  // res.redirect("back");
 });
 
 exports.toggle_comment_likes = asyncHandler(async (req, res, next) => {
-  console.log(req.params.commentId);
   const comment = await Comment.findById(req.params.commentId);
-  console.log(comment);
   const user = await User.findOne({ accountId: req.user.id });
   let likes = comment.likes_count;
   const index = likes.indexOf(user._id);
