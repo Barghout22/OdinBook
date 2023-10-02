@@ -8,7 +8,7 @@ require("../Middleware/passport");
 router.get("/", post_controller.homepage_display);
 router.post("/posts", post_controller.post_creation);
 router.get("/posts/:postId", post_controller.post_details);
-router.post("/posts/:postId", post_controller.comment_addition);
+router.post("/posts/:postId/comments", post_controller.comment_addition);
 router.get("/posts/:postId/likes", post_controller.toggle_post_likes);
 router.get("/comments/:commentId/likes", post_controller.toggle_comment_likes);
 router.get("/users", profile_controller.display_other_users);
@@ -24,10 +24,7 @@ router.get(
   "/users/:userId/cancelrequest",
   profile_controller.cancel_friend_request
 );
-router.get(
-  "/users/:userId/removefriend",
-  profile_controller.remvoe_friend
-);
+router.get("/users/:userId/removefriend", profile_controller.remvoe_friend);
 
 router.get("/login", (req, res) => {
   res.render("login");

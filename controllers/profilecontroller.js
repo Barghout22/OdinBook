@@ -118,7 +118,6 @@ exports.display_other_users = asyncHandler(async (req, res, next) => {
 
     return { ...user.toObject(), friend_status };
   });
-  // allUsers = allUsers.filter((element) => element.friend_status !== "friends");
   res.render("displayUsers", { users: allUsers, currentUser: currentUser });
 });
 exports.add_friend = asyncHandler(async (req, res, next) => {
