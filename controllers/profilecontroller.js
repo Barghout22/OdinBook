@@ -48,11 +48,17 @@ exports.profile_display = asyncHandler(async (req, res, next) => {
       let allPosts = await Post.find({
         postingUser: requiredUser,
       }).populate("postingUser");
-      allPosts = allPosts.map((post) => {
-        let likeStatus = post.likes.includes(currentUser._id) ? true : false;
-        post = { ...post.toObject(), likeStatus };
-        return post;
-      });
+
+      allPosts = await Promise.all(
+        allPosts.map(async (post) => {
+          let likeStatus = post.likes.includes(currentUser._id) ? true : false;
+          let comment = await Comment.findOne({
+            post_reference: post,
+          }).populate("commentorId");
+          return { ...post.toObject(), likeStatus, comment };
+        })
+      );
+
       allPosts = allPosts.sort(function (a, b) {
         return new Date(b.timeStamp) - new Date(a.timeStamp);
       });
