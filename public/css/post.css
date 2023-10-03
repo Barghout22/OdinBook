@@ -95,8 +95,8 @@ div.postBdy > p:nth-child(2) {
 div.btnContainer {
   display: flex;
   justify-content: stretch;
-  border-top: black 2px dotted;
-  border-bottom: black 2px dotted;
+  border-top: black 2px solid;
+  border-bottom: black 2px solid;
 }
 
 div.btnContainer > button {

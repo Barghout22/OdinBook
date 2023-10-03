@@ -127,8 +127,8 @@ div.postBdy > p:nth-child(2) {
 div.btnContainer {
   display: flex;
   justify-content: stretch;
-  border-top: black 2px dotted;
-  border-bottom: black 2px dotted;
+  border-top: black 2px solid;
+  border-bottom: black 2px solid;
 }
 div.btnContainer > a,
 div.btnContainer > button {
@@ -156,7 +156,7 @@ div.btnContainer > button:hover {
 }
 
 div.btnContainer > :nth-child(2) {
-  border-left: black 2px dotted;
+  border-left: black 2px solid;
 }
 div.commentContainer {
   background-color: #e4e6eb;
