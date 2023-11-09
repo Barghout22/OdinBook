@@ -1,12 +1,7 @@
 # OdinBook
-
-
-
- [Live Link]()
-
 ## About 
 Final Project of The Odin project node js curriculum. Facebook clone website with the ability to sign in with actual facebook data, create posts ,add other users, and interact with their posts.
-
+[Live Link](https://odin-book-l3sc.onrender.com/)
 ## Detailed features
 
 1. authenticate users with facebook Sign-in .
